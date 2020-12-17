@@ -2,10 +2,11 @@ import urllib.request, urllib.error, urllib.parse, json, requests
 from flask import Flask, render_template, request, session, redirect, url_for
 import spotipy
 from spotipy.oauth2 import SpotifyOAuth
+from secrets import CLIENT_ID, CLIENT_SECRET, LYRICS_KEY
 
 app = Flask(__name__)
 
-from secrets import CLIENT_ID, CLIENT_SECRET, LYRICS_KEY
+
 GRANT_TYPE = 'authorization_code'
 
 app.secret_key = CLIENT_SECRET
@@ -37,10 +38,18 @@ def spotifyurlfetch(url,access_token,params=None):
     app.logger.info(response)
     return response.read()
 
+@app.route("/save_album")
+def save():
+    sp = spotipy.Spotify(session["access_token"])
+    id = request.args.get('id')
+    app.logger.info(id)
+    sp.current_user_saved_albums_add([id])
+
 # @app.route("/save_playlist")
-# def follow_playlist(access_token):
+# def follow_playlist():
 #     # "1zN85Ep8w2JORfCe0RHLDP"
-#     url = "https://api.spotify.com/v1/playlists/1zN85Ep8w2JORfCe0RHLDP/followers"
+#     id = request.args.get("id")
+#     url = "https://api.spotify.com/v1/playlists/{id}/followers".format(id=id)
 #
 #     app.logger.info(url)
 #     headers = {
@@ -90,18 +99,8 @@ def index():
         user = None
 
     if user != None:
-        # if logged in, get their playlists
-        # url = "https://api.spotify.com/v1/users/%s/playlists"%user
-        # # in the future, should make this more robust so it checks
-        # # if the access_token is still valid and retrieves a new one
-        # # using refresh_token if not
-        # # if spotipy.oauth2.is_token_expired(session["access_token"]):
-        #
-        #
-        # response = json.loads(spotifyurlfetch(url,session["access_token"]))
-        # user_playlists=response["items"]
+        # refresh token eventually
 
-        # user_albums = spotifyurlfetch("https://api.spotify.com/v1/me/albums/contains", session["access_token"])
         app.logger.info("DEVICES: " + str(sp.devices()))
 
         user_playlists = {}
@@ -126,25 +125,48 @@ def index():
     # follow_playlist(session["access_token"], "1zN85Ep8w2JORfCe0RHLDP")
 
     if turtle:
+        search_type = request.form.get('search-options')
         # app.logger.info(session["access_token"])
-        # song_results={}
-        tracks_cleaned = {}
-        song_results = search(turtle, session["access_token"])
-        for item in song_results["tracks"]["items"]:
-            # tracks[item["album"]["name"]] = sp.album_tracks(item["album"]["id"])
-            track_list = sp.album_tracks(item["album"]["id"])
+        # song_results={
 
-            for track in track_list["items"]:
-                if turtle.lower() in track["name"].lower():
-                    # app.logger.info(track["artists"][0]["name"])
-                    tracks_cleaned[track["name"]] = {"artist": track["artists"][0]["name"], "uri":track["uri"]}
+        # song_results = search(turtle, session["access_token"])
+        if search_type == "track":
+            tracks_cleaned = {}
+            song_results = sp.search(q=turtle, type="track")
+            for item in song_results["tracks"]["items"]:
+                # tracks[item["album"]["name"]] = sp.album_tracks(item["album"]["id"])
+                track_list = sp.album_tracks(item["album"]["id"])
+
+                for track in track_list["items"]:
+                    if turtle.lower() in track["name"].lower():
+                        # app.logger.info(track["artists"][0]["name"])
+                        tracks_cleaned[track["name"]] = {"artist": track["artists"][0]["name"], "uri":track["uri"]}
+            return render_template('home.html',user=True,user_playlists=user_playlists,turtle=turtle, response=tracks_cleaned, user_albums=user_albums)
+
+        if search_type == "album":
+            album_search_results = {}
+            album_results = sp.search(q=turtle, type="album")
+            for album in album_results["albums"]["items"]:
+                track_list = sp.album_tracks(album["id"])
+                # app.logger.info(album["name"])
+                # album_search_results[album["name"]] = {}
+                tracklist = {}
+                for track in track_list["items"]:
+                    # app.logger.info(track)
+                    # album_search_results[track["name"]] = "potato"
+                    tracklist[track["name"]] = {"artist": track["artists"][0]["name"], "uri":track["uri"], "name":track["name"]}
+                    # album_search_results[album["name"]][track["name"]] = track["name"]
+                # album_search_results[album["name"]] = sp.album_tracks(album["id"])
+                album_search_results[album["name"]] = {"tracks":tracklist, "id":album["id"]}
+            return render_template('home.html',user=True,user_playlists=user_playlists,turtle=turtle, user_albums=user_albums, search_albums=album_search_results)
+
             # app.logger.info(sp.album_tracks(item["album"]["id"]))
             # for album in item["album"]:
             #     tracks[album["name"]]= album["id"]
             #     # tracks = sp.album_tracks(id)
 
         # app.logger.info(song_results)
-        return render_template('home.html',user=True,user_playlists=user_playlists,turtle=turtle, response=tracks_cleaned, user_albums=user_albums)
+        return render_template('home.html',user=True,user_playlists=user_playlists,turtle=turtle, user_albums=user_albums)
 
     # I wanted to use 'input' as the variable, but that seems to break the code
     # So I settled for turtle
