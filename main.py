@@ -1,7 +1,7 @@
-import spotipy
-from spotipy.oauth2 import SpotifyOAuth
 import urllib.request, urllib.error, urllib.parse, json, requests
 from flask import Flask, render_template, request, session, redirect, url_for
+import spotipy
+from spotipy.oauth2 import SpotifyOAuth
 
 app = Flask(__name__)
 
