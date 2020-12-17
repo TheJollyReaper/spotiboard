@@ -1,0 +1,77 @@
+.container {
+     float: left;
+}
+
+.dropbtn {
+  background-color: #4CAF50;
+  color: white;
+  padding: 16px;
+  font-size: 16px;
+  border: none;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  width: 100%;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-content a:hover {background-color: #ddd;}
+
+.dropdown:hover .dropdown-content {display: block;}
+
+.dropdown:hover .dropbtn {background-color: #3e8e41;}
+
+#nav {
+    float: left;
+    font: bold 12px Arial, Helvetica, Sans-serif;
+    border: 1px solid #121314;
+    border-top: 1px solid #2b2e30;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 0px;
+    width:100%;
+    min-width: 650px;
+}
+
+#nav ul {
+    margin:0;
+    padding:0;
+    list-style:none;
+}
+
+#nav ul li {
+    float:left;
+    padding: 15px 15px;
+    width: 18%;
+  background: -webkit-gradient( linear, left bottom, left top, color-stop(0.09, rgb(59,63,65)), color-stop(0.55, rgb(72,76,77)), color-stop(0.78, rgb(75,77,77)) );
+    background: -moz-linear-gradient( center bottom, rgb(59,63,65) 9%, rgb(72,76,77) 55%, rgb(75,77,77) 78% );
+    background: -o-linear-gradient( center bottom, rgb(59,63,65) 9%, rgb(72,76,77) 55%, rgb(75,77,77) 78% );
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.1) inset, 0 0 5px rgba(0, 0, 0, 0.1) inset;
+    border-left: 1px solid rgba(255, 255, 255, 0.05);
+    border-right: 1px solid rgba(0,0,0,0.2);
+    text-shadow: 0 -1px 1px rgba(0, 0, 0, 0.6);
+
+}
+
+#nav ul li a {
+    display: block;
+    color:#d4d4d4;
+    text-decoration:none;
+    text-align: center;
+}

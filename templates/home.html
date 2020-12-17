@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    </head>
+
+    <body>
+        <div>
+            <h1 class="centered-title">Spotiboard</h1>
+        </div>
+
+        <h4 id="song">I am template text! FEAR ME</h4>
+        <h4 id="artist">I am template text! FEAR ME</h4>
+        <h4 id="album">I am template text! FEAR ME</h4>
+        <p id="lyrics">lyrics</p>
+
+        <!-- <iframe class="iframe" id="iframe" src="https://open.spotify.com/embed/artist/2D4FOOOtWycb3Aw9nY5n3c" width="300" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe> -->
+
+        <!-- <button type="button" name="button" onclick="play_song('spotify:track:5ftdTvmQjjsL23t7jxADfI')">Play Song!</button> -->
+        <button type="button" name="button" onclick="toggle_element('albums')">Toggle saved albums</button>
+        <button type="button" name="button" onclick="toggle_element('playlists')">Toggle saved playlists</button>
+        <button type="button" name="button" onclick="toggle_element('search_results')">Toggle search results</button>
+
+        <script type="text/javascript">
+               function play_song(uri) {
+                    var url = `/play_song?uri=${uri}`;
+                    $.getJSON(url).done(function(data) {
+                    });
+               }
+        </script>
+
+        <script type="text/javascript">
+               function potato_alert() {
+                    var url = `/playing`;
+                    $.getJSON(url).done(function(data) {
+                         document.getElementById("song").innerHTML = "Currently playing: " + data["song"]
+                         document.getElementById("artist").innerHTML = "By: " + data["artist"]
+                         document.getElementById("album").innerHTML = "Album: " + data["album"]
+                         document.getElementById("lyrics").innerHTML = data["lyrics"].replace(/\n/g, '\n')
+                    });
+               }
+
+               setInterval(potato_alert, 10000);
+        </script>
+
+        {% if user %}
+
+        <script type="text/javascript">
+            function toggle_element(id) {
+                  var x = document.getElementById(id);
+
+                       if (x.style.display === "none") {
+                        x.style.display = "block";
+                      } else {
+                        x.style.display = "none";
+                      }
+
+
+            }
+        </script>
+
+        <div style="text-align: center;">
+            <form id="search" action="" method="post">
+                <input class="search-bar" type="text" name="input" id="input" placeholder="Search for a song..."/>
+
+                 <label for="search-options">Search Type:</label>
+                 <select name="search-options" id="search-options">
+                   <option value="track">Song</option>
+                   <option value="album">Album</option>
+                   <option value="artist">Artist</option>
+                   <option value="playlist">Playlists</option>
+                   <option value="show">Podcast</option>
+                   <option value="episode">Podcast Episode</option>
+                 </select>
+                 <br><br>
+
+                 <input type="submit" value="Submit">
+                <!-- <input type="submit" value="search" name="submit" id="submit"/> -->
+             </form>
+        </div>
+
+        <!-- GRAB USER SAVED ALBUMS -->
+        <div id="albums" style="overflow-x: scroll; display: none;">
+             <ul class="result-panels">
+                 {% for album in user_albums["items"] %}
+                 <li style="position: relative; top: 0; border-color: aquamarine; border-width: 30px;">
+                      <div style="width: 500px;">
+                           <h2>{{album["album"]["name"]}}</h2>
+                           {% for track in album["album"]["tracks"]["items"]%}
+                                {% set uri = track["uri"] %}
+                                <h4>{{track["name"]}}</h4>
+                                <button type="button" name="button" onclick="play_song('{{uri}}')">Play Song!</button>
+                           {% endfor %}
+                      </div>
+                 </li>
+                 {% endfor %}
+             </ul>
+        </div>
+
+
+        <!-- GRAB USER SAVED PLAYLISTS -->
+        <div id="playlists" style="overflow-x: scroll; display: none;">
+             <ul class="result-panels">
+                 {% for name in user_playlists %}
+                 <li style="position: relative; top: 0; border-color: aquamarine; border-width: 30px;">
+                      <div style="width: 500px;">
+                           <h2>{{name}}</h2>
+                           {% for track in user_playlists[name]["info"]["items"] %}
+                                {% set uri = track["track"]["uri"] %}
+                                <h4>{{track["track"]["name"]}}</h4>
+                                <button type="button" name="button" onclick="play_song('{{uri}}')">Play Song!</button>
+                           {% endfor %}
+                      </div>
+                 </li>
+                 {% endfor %}
+             </ul>
+        </div>
+
+            {% if response %}
+
+            <div id="search_results" style="overflow-x: scroll;">
+                <ul class="result-panels">
+                    {% for song in response %}
+                    <li style="position: relative; top: 0; border-color: aquamarine; border-width: 30px;">
+                         <div style="width: 250px;">
+                              <h4>{{song}}</h4>
+                              <h4><i>{{response[song]["artist"]}}<i></h4>
+                                   {% set uri = response[song]["uri"] %}
+                                   <button type="button" name="button" onclick="play_song('{{uri}}')">Play Song!</button>
+                         </div>
+                    </li>
+                    {% endfor %}
+                </ul>
+           </div>
+
+
+           {% endif %}
+        {% else %}
+          <p>You are not yet logged into this site</p>
+          <p><a href="/auth/login">Log in to Spotify</a></p>
+
+        {% endif %}
+
+
+
+        <script type="text/javascript">
+          function save_playlist(id) {
+               // alert(id);
+               var id = id
+               var url = `/save_playlist?pid=${id}`;
+               $.getJSON(url).done(function(data) {
+
+               });
+          }
+        </script>
+
+    </body>
+</html>

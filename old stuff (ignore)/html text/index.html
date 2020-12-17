@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <link rel="stylesheet" href="style.css">
+    </head>
+
+    <body>
+         <script type="text/javascript">
+              function alert_call() {
+                   var x = document.getElementById("cheese");
+                      if (x.style.display === "none") {
+                        x.style.display = "block";
+                      } else {
+                        x.style.display = "none";
+                      }
+              }
+         </script>
+
+         <h2>Hoverable Dropdown</h2>
+          <p>Move the mouse over the button to open the dropdown menu.</p>
+          <div id="nav">
+               <ul>
+                    <li>
+                         <div class="dropdown">
+                           <button class="dropbtn">Dropdown</button>
+                           <div class="dropdown-content">
+                             <button type="button" name="button" onclick="alert_call()">ALERT</button>
+                             <a href="#">Link 1</a>
+                             <a href="#">Link 2</a>
+                             <a href="#">Link 3</a>
+                           </div>
+                         </div>
+
+                         <div id="cheese">
+                              <h4>banana</h4>
+                         </div>
+                    </li>
+
+                    <li>
+                         <div class="dropdown">
+                           <button class="dropbtn">Dropdown</button>
+                           <div class="dropdown-content">
+                             <a href="#">Link 1</a>
+                             <a href="#">Link 2</a>
+                             <a href="#">Link 3</a>
+                           </div>
+                         </div>
+                    </li>
+
+                    <li>
+                         <div class="dropdown">
+                           <button class="dropbtn">Dropdown</button>
+                           <div class="dropdown-content">
+                             <a href="#">Link 1</a>
+                             <a href="#">Link 2</a>
+                             <a href="#">Link 3</a>
+                           </div>
+                         </div>
+                    </li>
+
+                    <li>
+                         <div class="dropdown">
+                           <button class="dropbtn">Dropdown</button>
+                           <div class="dropdown-content">
+                             <a href="#">Link 1</a>
+                             <a href="#">Link 2</a>
+                             <a href="#">Link 3</a>
+                           </div>
+                         </div>
+                    </li>
+
+                    <li>
+                         <div class="dropdown">
+                           <button class="dropbtn">Dropdown</button>
+                           <div class="dropdown-content">
+                             <a href="#">Link 1</a>
+                             <a href="#">Link 2</a>
+                             <a href="#">Link 3</a>
+                           </div>
+                         </div>
+                    </li>
+
+               </ul>
+          </div>
+
+    </body>
+</html>
