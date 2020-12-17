@@ -14,7 +14,7 @@ def retrieve_lyrics(artist, track):
     artist = artist
     track = track
     params = {}
-    params["apikey"] = "bZpKzQTHsIGBpOoWAvUXD1yeShaU3LgDw4UKe5f3uOuk8KWRpIk0oHFSlT8c6NVY"
+    params["apikey"] = LYRICS_KEY
     baseurl = "https://orion.apiseeds.com/api/music/lyric/{artist}/{track}".format(artist=artist, track=track)
     app.logger.info("Lyrics URL: " + str(baseurl))
     url = baseurl + "?" + urllib.parse.urlencode(params)
