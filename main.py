@@ -141,7 +141,7 @@ def index():
                     if turtle.lower() in track["name"].lower():
                         # app.logger.info(track["artists"][0]["name"])
                         tracks_cleaned[track["name"]] = {"artist": track["artists"][0]["name"], "uri":track["uri"]}
-            return render_template('home.html',user=True,user_playlists=user_playlists,turtle=turtle, response=tracks_cleaned, user_albums=user_albums)
+            return render_template('new_ui.html',user=True,user_playlists=user_playlists,turtle=turtle, response=tracks_cleaned, user_albums=user_albums)
 
         if search_type == "album":
             album_search_results = {}
@@ -158,7 +158,7 @@ def index():
                     # album_search_results[album["name"]][track["name"]] = track["name"]
                 # album_search_results[album["name"]] = sp.album_tracks(album["id"])
                 album_search_results[album["name"]] = {"tracks":tracklist, "id":album["id"]}
-            return render_template('home.html',user=True,user_playlists=user_playlists,turtle=turtle, user_albums=user_albums, search_albums=album_search_results)
+            return render_template('new_ui.html',user=True,user_playlists=user_playlists,turtle=turtle, user_albums=user_albums, search_albums=album_search_results)
 
             # app.logger.info(sp.album_tracks(item["album"]["id"]))
             # for album in item["album"]:
@@ -166,12 +166,12 @@ def index():
             #     # tracks = sp.album_tracks(id)
 
         # app.logger.info(song_results)
-        return render_template('home.html',user=True,user_playlists=user_playlists,turtle=turtle, user_albums=user_albums)
+        return render_template('new_ui.html',user=True,user_playlists=user_playlists,turtle=turtle, user_albums=user_albums)
 
     # I wanted to use 'input' as the variable, but that seems to break the code
     # So I settled for turtle
     else:
-        return render_template('home.html',user=user,user_playlists=user_playlists,turtle=turtle, user_albums=user_albums)
+        return render_template('new_ui.html',user=user,user_playlists=user_playlists,turtle=turtle, user_albums=user_albums)
 
 ### this handler will handle our authorization requests
 @app.route("/auth/login")

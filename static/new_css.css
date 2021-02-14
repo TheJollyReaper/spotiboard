@@ -1,0 +1,71 @@
+* {
+     background: #0F2027;  /* fallback for old browsers */
+     background: -webkit-linear-gradient(to right, #2C5364, #203A43, #0F2027);  /* Chrome 10-25, Safari 5.1-6 */
+     background: linear-gradient(to right, #2C5364, #203A43, #0F2027); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+     color: white;
+}
+
+/* mobile */
+html {
+    font-size: 14px;
+}
+/* tablet */
+@media only screen and (min-width: 480px) {
+    html {
+        font-size: 16px;
+    }
+}
+/* desktop */
+@media only screen and (min-width: 768px) {
+    html {
+        font-size: 18px;
+    }
+}
+/* extra large */
+@media only screen and (min-width: 1024px) {
+    html {
+        font-size: 20px;
+    }
+}
+
+/* .container {
+     display: flex;
+     flex-direction: row;
+     flex: 1;
+} */
+
+.result-panels {
+     display: flex;
+     flex-direction: row;
+     justify-content: flex-start;
+     margin: 1rem;
+     height: 20rem;
+     overflow-x: scroll;
+}
+
+.result {
+     display: flex;
+     flex: 1 0 auto;
+     flex-direction: column;
+     width: 15rem;
+     overflow-y: scroll;
+     background: #0f0c29;  /* fallback for old browsers */
+     background: -webkit-linear-gradient(to right, #24243e, #302b63, #0f0c29);  /* Chrome 10-25, Safari 5.1-6 */
+     background: linear-gradient(to right, #24243e, #302b63, #0f0c29); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+.large-header {
+     background: inherit;
+     font-size: 1.25rem;
+}
+
+.normal-text {
+     background: inherit;
+     font-size: 1rem;
+}
+
+.button {
+     background: inherit;
+     font-size: .75rem;
+     width: 50%;
+}
